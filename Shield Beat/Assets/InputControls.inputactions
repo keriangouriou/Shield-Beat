@@ -1,0 +1,56 @@
+{
+    "name": "InputControls",
+    "maps": [
+        {
+            "name": "ShieldControls",
+            "id": "f7965635-ff8e-4c07-928d-9ab007d7b1d1",
+            "actions": [
+                {
+                    "name": "MoveShield",
+                    "type": "Button",
+                    "id": "85efee9a-d3e0-48ec-9890-87f516e01ee8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "1D Axis",
+                    "id": "fc330499-18e5-4a51-93ef-5148877ea71c",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveShield",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "65cfb1fd-e3ab-4af8-8dd3-409548724eb3",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveShield",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "e2296121-cc6e-4c85-a4df-d775886df63b",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveShield",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
