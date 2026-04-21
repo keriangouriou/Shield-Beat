@@ -2,11 +2,21 @@ using UnityEngine;
 
 public class EnergyCoreCollide : MonoBehaviour
 {
+    [SerializeField]
+    private GameManagerScript gameManager;
     private void OnTriggerEnter(Collider col)
     {
-        if (col.CompareTag("Projectile"))
+        if ( col.CompareTag("EnergyCapsule"))
         {
-            col.GetComponent<ProjectileScript>().DestroyProjectile();
+            ProjectileScript projectileScript = col.GetComponent<ProjectileScript>();
+            gameManager.GainEnergy(projectileScript.value);
+            projectileScript.DestroyProjectile();
+        }
+        else if (col.CompareTag("Projectile"))
+        {
+            ProjectileScript projectileScript = col.GetComponent<ProjectileScript>();
+            gameManager.LoseEnergy(projectileScript.value);
+            projectileScript.DestroyProjectile();
         }
     }
 }
