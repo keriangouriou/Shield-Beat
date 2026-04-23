@@ -81,6 +81,7 @@ MonoBehaviour:
   speed: 20
   beat: 0
   value: 30
+  pointGain: 10
 --- !u!135 &7345646676072653178
 SphereCollider:
   m_ObjectHideFlags: 0

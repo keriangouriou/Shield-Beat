@@ -16,6 +16,7 @@ public class EnergyCoreCollide : MonoBehaviour
         {
             ProjectileScript projectileScript = col.GetComponent<ProjectileScript>();
             gameManager.LoseEnergy(projectileScript.value);
+            gameManager.ResetMultiplier();
             projectileScript.DestroyProjectile();
         }
     }

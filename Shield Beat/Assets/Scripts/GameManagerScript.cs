@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class GameManagerScript : MonoBehaviour
@@ -6,13 +7,21 @@ public class GameManagerScript : MonoBehaviour
     private float currentEnergy = 90;
     [SerializeField]
     private Material materialEnergy, materialEnemy;
+    [SerializeField]
+    private TextMeshProUGUI scoreTMP;
+    //Material
     private int energyState = 5;
     private Color materialEnergyColor = new Color(0,1,0);
     private Color materialEnemyColor = new Color(1,0,1);
     private float intensity;
+    //score
+    private float points = 0;
+    private float multiplier = 1;
+    //Main Game System
+    public float songPosition;
     void Start()
     {
-        
+        //songPosition = 
     }
 
     void Update()
@@ -38,6 +47,9 @@ public class GameManagerScript : MonoBehaviour
                 EnergyVeryHigh();
                 break;
         }
+
+        //score and UI
+        RefreshUI();
     }
     public void GainEnergy(float energyAdded)
     {
@@ -65,7 +77,7 @@ public class GameManagerScript : MonoBehaviour
     {
         if (energyState != 2)
         {
-            materialEnergy.SetColor("_EmissionColor", materialEnergyColor*0.2f);
+            materialEnergy.SetColor("_EmissionColor", materialEnergyColor*0.4f);
             energyState = 2;
         }
     }
@@ -73,7 +85,7 @@ public class GameManagerScript : MonoBehaviour
     {
         if (energyState != 3)
         {
-            materialEnergy.SetColor("_EmissionColor", materialEnergyColor*0.7f);
+            materialEnergy.SetColor("_EmissionColor", materialEnergyColor*1f);
             energyState = 3;
         }
     }
@@ -81,8 +93,21 @@ public class GameManagerScript : MonoBehaviour
     {
         if (energyState != 4)
         {
-            materialEnergy.SetColor("_EmissionColor", materialEnergyColor * 1.2f);
+            materialEnergy.SetColor("_EmissionColor", materialEnergyColor * 2f);
             energyState = 4;
         }
+    }
+    public void GainPoint(float pointGain)
+    {
+        points += pointGain*multiplier;
+        multiplier += 0.01f;
+    }
+    public void ResetMultiplier()
+    {
+        multiplier = 1;
+    }
+    private void RefreshUI()
+    {
+        scoreTMP.SetText(points.ToString());
     }
 }

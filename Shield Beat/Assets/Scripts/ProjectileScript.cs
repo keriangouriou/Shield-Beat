@@ -7,6 +7,7 @@ public class ProjectileScript : MonoBehaviour
     private float speed, beat;
     private float beatDistance = 9.2308f; //The result of Time in second between beats * speed
     public float value;
+    public float pointGain;
     private void Start()
     {
         transform.Translate(0,0, beatDistance * (beat-1));
