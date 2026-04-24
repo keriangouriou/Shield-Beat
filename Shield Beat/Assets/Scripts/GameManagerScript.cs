@@ -8,24 +8,23 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField]
     private Material materialEnergy, materialEnemy;
     [SerializeField]
-    private TextMeshProUGUI scoreTMP;
+    private TextMeshProUGUI scoreTMP, multiplierTMP;
+    [SerializeField]
+    private Conductor conductor;
     //Material
     private int energyState = 5;
     private Color materialEnergyColor = new Color(0,1,0);
     private Color materialEnemyColor = new Color(1,0,1);
-    private float intensity;
     //score
     private float points = 0;
     private float multiplier = 1;
-    //Main Game System
-    public float songPosition;
     void Start()
     {
-        //songPosition = 
     }
 
     void Update()
     {
+        Debug.Log(conductor.songPosition);
         currentEnergy -= 10 * Time.deltaTime;
         if (currentEnergy <= 0 )
         {
@@ -68,7 +67,6 @@ public class GameManagerScript : MonoBehaviour
     {
         if (energyState != 1)
         {
-            intensity = -2;
             materialEnergy.SetColor("_EmissionColor", materialEnergyColor*0f);
             energyState = 1;
         }
@@ -108,6 +106,7 @@ public class GameManagerScript : MonoBehaviour
     }
     private void RefreshUI()
     {
-        scoreTMP.SetText(points.ToString());
+        scoreTMP.SetText(Mathf.Round(points).ToString());
+        multiplierTMP.SetText("x " + multiplier.ToString());
     }
 }
