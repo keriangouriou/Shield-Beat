@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 7163412891373172264}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 58}
+  m_LocalPosition: {x: 0, y: 0, z: 57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   beat: 0
-  value: 30
+  value: 70
   pointGain: 10
 --- !u!135 &7345646676072653178
 SphereCollider:

@@ -8,7 +8,6 @@ public class Conductor : MonoBehaviour
     private AudioSource music;
     [SerializeField]
     private ProjectileSummoner projectileSummoner;
-    private int bpm = 130;
     public float crochet;
     private float offSet = 0.25f;
     private float dpsTimeSong;

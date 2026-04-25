@@ -24,25 +24,37 @@ public class GameManagerScript : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(conductor.songPosition);
-        currentEnergy -= 10 * Time.deltaTime;
-        if (currentEnergy <= 0 )
+        currentEnergy += 10 * Time.deltaTime;
+        if (currentEnergy > 400 )
+        {
+            currentEnergy = 400;
+        }
+        else if (currentEnergy <= 0)
         {
             Lose();
         }
 
-        switch (currentEnergy)
+            switch (currentEnergy)
         {
-            case <50:
+            case < 50:
                 EnergyVeryLow();
                 break;
             case < 100:
                 EnergyLow();
                 break;
             case < 150:
+                EnergyMidLow();
+                break;
+            case < 200:
+                EnergyMid();
+                break;
+            case < 300:
+                EnergyMidHigh();
+                break;
+            case < 350:
                 EnergyHigh();
                 break;
-            case >= 150:
+            case >= 350:
                 EnergyVeryHigh();
                 break;
         }
@@ -75,30 +87,55 @@ public class GameManagerScript : MonoBehaviour
     {
         if (energyState != 2)
         {
-            materialEnergy.SetColor("_EmissionColor", materialEnergyColor*0.4f);
+            materialEnergy.SetColor("_EmissionColor", materialEnergyColor*0.5f);
             energyState = 2;
+        }
+    }
+    private void EnergyMidLow()
+    {
+        if (energyState != 3)
+        {
+            materialEnergy.SetColor("_EmissionColor", materialEnergyColor * 0.7f);
+            energyState = 3;
+        }
+    }
+    private void EnergyMid()
+    {
+        if (energyState != 4)
+        {
+            materialEnergy.SetColor("_EmissionColor", materialEnergyColor * 1f);
+            energyState = 4;
+        }
+    }
+    private void EnergyMidHigh()
+    {
+        if (energyState != 5)
+        {
+            materialEnergy.SetColor("_EmissionColor", materialEnergyColor * 2f);
+            energyState = 5;
         }
     }
     private void EnergyHigh()
     {
-        if (energyState != 3)
+        if (energyState != 6)
         {
-            materialEnergy.SetColor("_EmissionColor", materialEnergyColor*1f);
-            energyState = 3;
+            materialEnergy.SetColor("_EmissionColor", materialEnergyColor*3f);
+            energyState = 6;
         }
     }
     private void EnergyVeryHigh()
     {
-        if (energyState != 4)
+        if (energyState != 7)
         {
-            materialEnergy.SetColor("_EmissionColor", materialEnergyColor * 2f);
-            energyState = 4;
+            materialEnergy.SetColor("_EmissionColor", materialEnergyColor * 4f);
+            energyState = 7;
         }
     }
     public void GainPoint(float pointGain)
     {
         points += pointGain*multiplier;
         multiplier += 0.01f;
+        multiplier = Mathf.Round(multiplier * 100) / 100;
     }
     public void ResetMultiplier()
     {
