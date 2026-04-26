@@ -18,6 +18,7 @@ public class ProjectileSummoner : MonoBehaviour
     //Instantiation info
     private int[] nextPatterns;
     private int patternRotation = 0;
+    private List<GameObject> projectiles = new List<GameObject>();
 
     private void Start()
     {
@@ -130,5 +131,24 @@ public class ProjectileSummoner : MonoBehaviour
             currentWave++;
             pastCrochet += 16;
         }
+    }
+    public void StopAllProjectiles()
+    {
+        foreach (GameObject go in projectiles)
+        {
+            if (go != null)
+            {
+                go.GetComponent<ProjectileScript>().StopProjectile();
+            }
+        }
+        this.enabled = false;
+    }
+    public void RemoveFromProjectiles(GameObject projectileToRemove)
+    {
+        projectiles.Remove(projectileToRemove);
+    }
+    public void AddInProjectiles(GameObject projectileToAdd)
+    {
+        projectiles.Add(projectileToAdd);
     }
 }

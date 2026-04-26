@@ -11,6 +11,7 @@ public class Conductor : MonoBehaviour
     public float crochet;
     private float offSet = 0.25f;
     private float dpsTimeSong;
+    private bool started = false;
     public float songPosition;
     void Start()
     {
@@ -20,13 +21,17 @@ public class Conductor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        songPosition = (float)(AudioSettings.dspTime - dpsTimeSong)* music.pitch - offSet  ;
+        if (started)
+        {
+            songPosition = (float)(AudioSettings.dspTime - dpsTimeSong) * music.pitch - offSet;
+        }
     }
 
     IEnumerator WaitBeforeStart()
     {
         yield return new WaitForSeconds(2f);
         dpsTimeSong = (float)AudioSettings.dspTime;
+        started = true;
         projectileSummoner.enabled = true;
         yield return new WaitForSeconds(3f);
         music.Play();
