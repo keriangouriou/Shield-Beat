@@ -5,39 +5,58 @@ using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour
 {
+    [Header("Gameplay System")]
     [SerializeField]
     private float currentEnergy = 90;
-    [SerializeField]
-    private Material materialEnergy, materialEnemy;
-    [SerializeField]
-    private TextMeshProUGUI scoreTMP, multiplierTMP, finalScore;
     [SerializeField]
     private Conductor conductor;
     [SerializeField]
     private ProjectileSummoner projectileSummoner;
     [SerializeField]
-    private GameObject lightRing1, lightRing2, lightRing3, lightRing4;
+    private ShieldControlsScript shieldControlsScript;
+
+    [Header("UI")]
     [SerializeField]
     private Animator blackscreenAnimator;
     [SerializeField]
-    private GameObject deathScreen, scoreUI, blackScreen, winScreen;
+    private GameObject deathScreen, scoreUI, blackScreen, winScreen, perfect;
     [SerializeField]
-    private ShieldControlsScript shieldControlsScript;
-    //Material
+    private TextMeshProUGUI scoreTMP, multiplierTMP, finalScoreTMP, hitMultiplierTMP;
+    
+    [Header("Music")]
+    [SerializeField]
+    private GameObject mainMusic;
+    private GameObject loseMusic;
+
+    [Header("Environment Visuals")]
+    [SerializeField]
+    private Material materialEnergy;
+    [SerializeField]
+    private GameObject lightRing1, lightRing2, lightRing3, lightRing4;
+
+    //material management
     private int energyState = 5;
-    private Color materialEnergyColor = new Color(0,1,0);
+    private Color materialEnergyColor = new Color(0, 1, 0);
+
     //score
     private float points = 0;
     private float multiplier = 1;
+    private int numberOfHit = 0;
+    private float hitMultiplier = 2;
+
     //GameManager
     private bool timeStop = false;
+
 
     private void Start()
     {
         StartCoroutine(DisableBlackScreen());
     }
+
+
     void Update()
     {
+        //Check if the time is stop (that only happen) when you lose
         if (!timeStop)
         {
             currentEnergy += 10 * Time.deltaTime;
@@ -49,7 +68,7 @@ public class GameManagerScript : MonoBehaviour
             {
                 Lose();
             }
-
+            //Adapt the intensity of the EnergyMaterial Emission depending on the currentEnergy variable
             switch (currentEnergy)
             {
                 case < 50:
@@ -94,6 +113,8 @@ public class GameManagerScript : MonoBehaviour
     public void LoseEnergy(float energyLost)
     {
         currentEnergy -= energyLost;
+        hitMultiplier -= 0.1f;
+        numberOfHit++;
     }
 
         //Game Management Functions
@@ -104,11 +125,17 @@ public class GameManagerScript : MonoBehaviour
         projectileSummoner.StopAllProjectiles();
         scoreUI.SetActive(false);
         deathScreen.SetActive(true);
+        mainMusic.SetActive(false);
+        loseMusic.SetActive(true);
     }
     private void Win()
     {
         winScreen.SetActive(true);
-        finalScore.SetText("Final Score:\n"+ Mathf.Round(points).ToString());
+        shieldControlsScript.enabled = false;
+        if (hitMultiplier < 1) { hitMultiplier = 1; }
+        if (numberOfHit == 0) { perfect.SetActive(true); }
+        hitMultiplierTMP.SetText("Number of hits: " + numberOfHit + "\nHit Multiplier: " + hitMultiplier);
+        finalScoreTMP.SetText("Final Score:\n"+ Mathf.Round(points*hitMultiplier).ToString());
     }
     public void ResetGame()
     {
