@@ -17,30 +17,29 @@ public class ProjectileSummoner : MonoBehaviour
     private int pastCrochet = 0;
     //Instantiation info
     private int[] nextPatterns;
-    private int patternRotation = 0;
+    [SerializeField]
+    private Vector3 projectileRotation;
     private List<GameObject> projectiles = new List<GameObject>();
+    private int rotationDirection = 1;
 
     private void Start()
     {
         //there is 224 crochet in the music and 224/16 = 14 so there is 14 waves
         patternList.Add(new int[5] { 16, 16, 0, 0, 0 }); //Wave 1 Bass and MelodyOne
-        patternList.Add(new int[5] { 16, 0, 16, 0, 0 }); //Wave 2 Bass and MelodyTwo
+        patternList.Add(new int[5] { 16, 0, 16, 0, 16 }); //Wave 2 Bass and MelodyTwo
         patternList.Add(new int[5] { 16, 16, 16, 0, 0 }); // Wave 3->6 Bass, MelodyOne and MelodyTwo
         patternList.Add(new int[5] { 16, 16, 16, 0, 0 });
-        patternList.Add(new int[5] { 16, 16, 16, 0, 0 });
-        patternList.Add(new int[5] { 16, 16, 16, 0, 0 }); //Wave 6
-        patternList.Add(new int[5] { 16, 0, 0, 16, 0 });
-        patternList.Add(new int[5] { 16, 0, 0, 16, 0 });
-        patternList.Add(new int[5] { 16, 16, 0, 16, 0 });
-        patternList.Add(new int[5] { 16, 16, 0, 16, 0 });
-        patternList.Add(new int[5] { 16, 16, 0, 16, 0 });
-        patternList.Add(new int[5] { 16, 16, 0, 16, 0 });
+        patternList.Add(new int[5] { 16, 16, 16, 0, 16 });
+        patternList.Add(new int[5] { 16, 16, 16, 0, 16 }); //Wave 6
+        patternList.Add(new int[5] { 16, 0, 0, 12, 0 });
+        patternList.Add(new int[5] { 16, 0, 0, 12, 16 });
+        patternList.Add(new int[5] { 16, 16, 0, 12, 0 });
+        patternList.Add(new int[5] { 16, 16, 0, 12, 16 });
+        patternList.Add(new int[5] { 16, 16, 0, 12, 0 });
+        patternList.Add(new int[5] { 16, 16, 0, 12, 16 });
         patternList.Add(new int[5] { 16, 16, 0, 0, 0 });
-        patternList.Add(new int[5] { 16, 16, 0, 0, 0 });
+        patternList.Add(new int[5] { 16, 16, 0, 0, 16 });
         nextPatterns = new int[5];
-        nextPatterns[0] = 0; 
-        nextPatterns[1] = 0;
-        nextPatterns[2] = 0;
         crochet = conductor.crochet;
     }
     private void Update()
@@ -63,18 +62,31 @@ public class ProjectileSummoner : MonoBehaviour
                     isFirstPairBeat = true;
                 }
             }
-
+           
             SummonNextProjectiles();
 
             lastCrochet += crochet;
 
-            if (conductor.songPosition > pastCrochet*crochet)
+            if (conductor.songPosition > pastCrochet * crochet)
             {
                 SendNextWave();
             }
-            if (isPairBeat) 
+            if (isPairBeat)
             {
-                patternRotation += 90;
+                projectileRotation.y += 90 * rotationDirection;
+            }
+            if (nextPatterns[4] > 0)
+            {
+                if (rotationDirection != -1)
+                {
+                    rotationDirection = -1;
+                    projectileRotation.z = 180;
+                }
+            }
+            else if (rotationDirection != 1)
+            {
+                projectileRotation.z = 0;
+                rotationDirection = 1;
             }
         }
     }
@@ -89,7 +101,7 @@ public class ProjectileSummoner : MonoBehaviour
     {
         if (isPairBeat && nextPatterns[0]>0)
         {
-            Instantiate(projectileBass,Vector3.zero,Quaternion.Euler(0,patternRotation,0));
+            Instantiate(projectileBass,Vector3.zero, Quaternion.Euler(projectileRotation));
         }
         DecrementPattern(0);
     }
@@ -97,7 +109,7 @@ public class ProjectileSummoner : MonoBehaviour
     {
         if (isPairBeat && !isFirstPairBeat && nextPatterns[1] > 0)
         {
-            Instantiate(projectilesMelodyOne, Vector3.zero, Quaternion.Euler(0, patternRotation, 0));
+            Instantiate(projectilesMelodyOne, Vector3.zero, Quaternion.Euler(projectileRotation));
         }
         DecrementPattern(1);
     }
@@ -105,7 +117,7 @@ public class ProjectileSummoner : MonoBehaviour
     {
         if (isPairBeat && isFirstPairBeat && nextPatterns[2] > 0)
         {
-            Instantiate(projectilesMelodyTwo, Vector3.zero, Quaternion.Euler(0, patternRotation, 0));
+            Instantiate(projectilesMelodyTwo, Vector3.zero, Quaternion.Euler(projectileRotation));
         }
         DecrementPattern(2);
     }
@@ -113,8 +125,9 @@ public class ProjectileSummoner : MonoBehaviour
     {
         if (isPairBeat && !isFirstPairBeat && nextPatterns[3] > 0)
         {
-            Instantiate(projectilesMelodyThree, Vector3.zero, Quaternion.Euler(0, patternRotation, 0));
+            Instantiate(projectilesMelodyThree, Vector3.zero, Quaternion.Euler(projectileRotation));
         }
+        DecrementPattern(3);
     }
     private void DecrementPattern(int patternIndex)
     {

@@ -26,6 +26,7 @@ public class GameManagerScript : MonoBehaviour
     [Header("Music")]
     [SerializeField]
     private GameObject mainMusic;
+    [SerializeField]
     private GameObject loseMusic;
 
     [Header("Environment Visuals")]
@@ -47,7 +48,7 @@ public class GameManagerScript : MonoBehaviour
     //GameManager
     private bool timeStop = false;
 
-
+    //Remove the blackScreen at the start of the Level
     private void Start()
     {
         StartCoroutine(DisableBlackScreen());
@@ -131,6 +132,7 @@ public class GameManagerScript : MonoBehaviour
     private void Win()
     {
         winScreen.SetActive(true);
+        scoreUI.SetActive(false);
         shieldControlsScript.enabled = false;
         if (hitMultiplier < 1) { hitMultiplier = 1; }
         if (numberOfHit == 0) { perfect.SetActive(true); }
@@ -157,6 +159,7 @@ public class GameManagerScript : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Application.Quit();
     }
+
         //Visual Environment functions 
     private void EnergyVeryLow()
     {

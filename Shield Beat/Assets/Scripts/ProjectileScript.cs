@@ -17,6 +17,7 @@ public class ProjectileScript : MonoBehaviour
     private void Update()
     {
             transform.Translate(0,0,-speed*Time.deltaTime);
+            transform.Rotate(0,0,3*Time.deltaTime*speed);
     }
     public void DestroyProjectile()
     {
